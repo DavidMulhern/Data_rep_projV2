@@ -12,7 +12,8 @@ export class Events extends Component {
         return this.props.events.map((entry)=>{
 
             // Now that events has been mapped into entry, we return entry to MyItems in order for that class to display contents
-            return <MyItems entry={entry}></MyItems>
+            // Passing ReloadAll from read to here and now we keep passing 
+            return <MyItems entry={entry} ReloadAll={this.props.ReloadAll}></MyItems>
 
         })
     }

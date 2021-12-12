@@ -4,8 +4,33 @@ import { Component } from "react";
 import { Card } from "react-bootstrap";
 // Using link which will be our edit button
 import {Link} from 'react-router-dom'
+// bootstrap buttons 
+import Button from 'react-bootstrap/Button'
+// Importing axios in order to use the delete method 
+import axios from 'axios'
 // Marking class for export
 export class MyItems extends Component {
+
+    constructor(){
+        super();
+        this.DeleteEntry = this.DeleteEntry.bind(this); // making an instance of this delete
+    }
+
+    // Delete method
+    DeleteEntry(e){
+        // Stops multiple deletes happening
+        e.preventDefault();
+
+        axios.delete('http://localhost:4000/api/events/' + this.props.entry._id)
+        .then(()=>{
+            // ReloadAll has been chained from events.js -> read.js and we can now execute it here!
+            this.props.ReloadAll();
+        })
+        .catch((err)=>{
+            console.log(err);
+            this.props.history.push('/error')
+        })
+    }
 
     // render - display
     render() {
@@ -26,7 +51,8 @@ export class MyItems extends Component {
                         </blockquote>
                     </Card.Body>
                     {/* Link to another component, set up so that the _id gets appended */}
-                    <Link to={"/edit/" + this.props.entry._id} className="btn btn-dark">Edit</Link>
+                    <Link to={"/edit/" + this.props.entry._id} className="btn btn-secondary">Edit</Link>
+                    <Button variant="danger" onClick={this.DeleteEntry}>Delete</Button>
                 </Card>
             </div>
         );

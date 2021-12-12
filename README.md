@@ -2,6 +2,7 @@
 
 1. GIF on app.js
 2. Using history.push to redirect in .catch() blocks
+3. Working on an upload option within forms, to upload new event pictures 
 
 
 # Getting Started with Create React App

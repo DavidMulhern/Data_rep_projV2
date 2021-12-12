@@ -29,7 +29,6 @@ export class Edit extends Component {
 
     // Lifecycle hook to pull the id out of the URL
     componentDidMount(){
-        //console.log(this.props.match.params.id)
 
         axios.get('http://localhost:4000/api/events/' + this.props.match.params.id)
         .then(response=>{
@@ -67,7 +66,7 @@ export class Edit extends Component {
         })
     }
 
-    // Handler will set state of PicFile from the event
+    // Handler will set state of PicFile from the event - WIP
     fileSelectedHandler = event => {
         console.log(event.target.files[0]);
         this.setState({
@@ -75,6 +74,7 @@ export class Edit extends Component {
         })
     }
 
+    // WIP
     fileUploadHnadler = () =>{
 
     }
@@ -97,7 +97,10 @@ export class Edit extends Component {
         .then(response =>{
             console.log(response.data)
         })
-        .catch()
+        .catch((err)=>{
+            console.log(err);
+            this.props.history.push('/error')
+        })
 
         // axios.post('http://localhost:4000/api/events', newEvent)
         // .then((res)=>{

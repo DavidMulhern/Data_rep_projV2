@@ -64,7 +64,16 @@ app.put('/api/events/:id', (req, res)=>{
 
   // get the object id via paramaters, get body of html, override record - true
   eventsModel.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err, data)=>{
-    res.send(data);
+    res.send(data); // We do nothing with this data, it's purely to see out the promise
+  })
+})
+
+// Delete method
+app.delete('/api/events/:id', (req, res)=>{
+  console.log("Delete entry: " + req.params.id)
+
+  eventsModel.findByIdAndDelete(req.params.id, (err, data)=>{
+    res.send(data); // We do nothing with this data, it's purely to see out the promise
   })
 })
 
@@ -84,8 +93,6 @@ app.post('/api/events', (req, res) => {
   // Confirming upload
   res.send("Event added")
 })
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

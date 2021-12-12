@@ -1,9 +1,7 @@
 import './App.css';
 // Importing component
 import { Component } from 'react';
-// importing Header, Footer, content, read, create, edit classes
-import { Header } from './components/header';
-import { Footer } from './components/footer';
+// importing Header, Footer, content, read, create, error, edit classes
 import { Content } from './components/content';
 import { Read } from './components/read';
 import { Create } from './components/create';
@@ -25,11 +23,11 @@ class App extends Component {
             <Container>
               {/* Image linked from my github */}
               <img src="https://raw.githubusercontent.com/DavidMulhern/DataRep_Project/main/src/images/book.gif" width="75px" height="75px"></img>
-              <Navbar.Brand href="#home">Event Picture Book</Navbar.Brand>
+              <Navbar.Brand href="#home">My life Book</Navbar.Brand>
               <Nav className="me-auto">
                 <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="/read">Read</Nav.Link>
-                <Nav.Link href="/create">Create</Nav.Link>
+                <Nav.Link href="/read">View life events</Nav.Link>
+                <Nav.Link href="/create">Create new event</Nav.Link>
               </Nav>
             </Container>
           </Navbar>
