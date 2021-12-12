@@ -16,10 +16,10 @@ export class Read extends Component {
     componentDidMount(){
 
         // Using axios to make a HTTP promise (async)
-        axios.get('https://jsonblob.com/api/jsonblob/894944504570986496')
+        axios.get('http://localhost:4000/api/events')
         .then((response)=>{
             // the above contents state variable will be populated by the response aka res
-            this.setState({contents: response.data.movies}) // movies here is the array name in the JSON blob, *** FUTURE DAVE ***
+            this.setState({contents: response.data}) // movies here is the array name in the JSON blob, *** FUTURE DAVE ***
 
         })
         .catch((err)=>{
@@ -33,7 +33,7 @@ export class Read extends Component {
     render() {
         return (
             <div>
-                <h1>This is the read component</h1>
+                <h1>Life events</h1>
                 {/* passing the object events (The above state contents) to the Events class in events.js*/}
                 <Events events={this.state.contents}></Events>
             </div>

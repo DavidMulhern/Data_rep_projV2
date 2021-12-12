@@ -1,13 +1,14 @@
 import './App.css';
 // Importing component
 import { Component } from 'react';
-// importing Header, Footer, content, read, create classes
+// importing Header, Footer, content, read, create, edit classes
 import { Header } from './components/header';
 import { Footer } from './components/footer';
 import { Content } from './components/content';
 import { Read } from './components/read';
 import { Create } from './components/create';
 import { Error } from './components/error';
+import { Edit } from './components/edit';
 // Import bootstrap and Navbar elements
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Container } from "react-bootstrap";
@@ -39,6 +40,7 @@ class App extends Component {
             <Route path='/create' component={Create} exact />
             <Route path='/read' component={Read} exact />
             <Route path='/error' component={Error} exact />
+            <Route path='/edit/:id' component={Edit} exact />
           </Switch>
         </div>
       </Router>

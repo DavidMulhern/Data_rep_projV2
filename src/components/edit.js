@@ -4,7 +4,7 @@ import { Component } from "react";
 import axios from 'axios';
 
 // Marking class for export
-export class Create extends Component {
+export class Edit extends Component {
 
     // Constructor for fields, initially empty values
     constructor(){
@@ -25,6 +25,27 @@ export class Create extends Component {
             Date: '',
             PicFile: null
         }
+    }
+
+    // Lifecycle hook to pull the id out of the URL
+    componentDidMount(){
+        //console.log(this.props.match.params.id)
+
+        axios.get('http://localhost:4000/api/events/' + this.props.match.params.id)
+        .then(response=>{
+            // setting the state with the data returned (populating the fields)
+            this.setState({
+                _id: response.data._id,
+                Title: response.data.Title,
+                Message: response.data.Message,
+                Date: response.data.Date,
+                PicFile: response.data.PicFile
+            })
+        })
+        .catch((err)=>{
+            console.log(err)
+            this.props.history.push('/error');
+        })
     }
 
     // When the value changes in the form, update
@@ -63,20 +84,29 @@ export class Create extends Component {
         e.preventDefault();
         alert("Event: " + this.state.Title + " " + this.state.Message + " " + this.state.Date + " " + this.state.PicFile);
 
-        const newEvent= {
+        const editEvent= {
             Title: this.state.Title,
             Message: this.state.Message,
             Date: this.state.Date,
-            File: this.state.PicFile
+            File: this.state.PicFile,
+            _id: this.state._id
         }
-        axios.post('http://localhost:4000/api/events', newEvent)
-        .then((res)=>{
-            console.log(res);
+
+        // Edit a record
+        axios.put('http://localhost:4000/api/events/' + this.state._id, editEvent)
+        .then(response =>{
+            console.log(response.data)
         })
-        .catch((err)=>{
-            console.log(err);
-            this.props.history.push('/error')
-        });
+        .catch()
+
+        // axios.post('http://localhost:4000/api/events', newEvent)
+        // .then((res)=>{
+        //     console.log(res);
+        // })
+        // .catch((err)=>{
+        //     console.log(err);
+        //     this.props.history.push('/error')
+        // });
     }
 
     render() {
@@ -100,7 +130,7 @@ export class Create extends Component {
                         <input type="file" className='form-control' onChange={this.fileSelectedHandler}></input>
                     </div>
                     <div className="form-group">
-                        <input type='submit' value='Add event' className='btn btn-primary'></input>
+                        <input type='submit' value='Edit event' className='btn btn-dark'></input>
                     </div>
                 </form>
             </div>

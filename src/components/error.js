@@ -9,8 +9,8 @@ export class Error extends Component {
         return (
             <div>
                 <h1>Captain, we have a problem!</h1>
-                <img src="https://safetymanagementgroup.com/wp-content/uploads/2020/08/Oopsbutton.jpg"></img>
-                <h2>Connection to database is invalid</h2>
+                <img src="https://raw.githubusercontent.com/DavidMulhern/DataRep_Project/main/src/images/Oopsbutton.jpg"></img>
+                <h2>Request could not be fulfilled</h2>
             </div>
         );
     }
