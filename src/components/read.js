@@ -4,7 +4,6 @@ import { Component } from "react";
 import { Events } from "./events";
 // Importing axios, allowing front end to talk http
 import axios from 'axios';
-
 // Marking class for export
 export class Read extends Component {
 
@@ -32,7 +31,6 @@ export class Read extends Component {
             // Should there be an issue with the axios get request, we get sent to the error component
             this.props.history.push('/error')
         });
-
     }
 
     // Reload method (fired after delete)

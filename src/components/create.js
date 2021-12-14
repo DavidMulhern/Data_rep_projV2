@@ -25,12 +25,11 @@ export class Create extends Component {
             Title:'',
             Message:'',
             Date: '',
-            PicFile: ''
+            PicFile: null
         }
-
     }
 
-    // When the value changes in the form, update
+    // When the value changes in the form, update the states
     onChangeTitle(e){
         this.setState({
             Title: e.target.value
@@ -49,34 +48,42 @@ export class Create extends Component {
         })
     }
 
+    // When an image gets uploaded, we re read it as abinary string and send it to the handle reader function 
     onChangeImage(e){
+        let file = e.target.files[0]
+
+        if (file){
+            const reader = new FileReader();
+            reader.onload = this.handleReader.bind(this)
+            reader.readAsBinaryString(file)
+        }
+    }
+
+    // handleReader converts the now binary string to base 64 and sets the state
+    handleReader = (readerEvent) => {
+        let binaryString = readerEvent.target.result
         this.setState({
-            PicFile: e.target.files[0]
+            PicFile: btoa(binaryString, 'base64')
         })
-        console.log(e.target.files[0])
     }
 
     onSubmit(e){
         // Stops button from being pressed multiple times
         e.preventDefault();
-        alert("Event: " + this.state.Title + " " + this.state.Message + " " + this.state.Date + " " + this.state.PicFile);
 
+        // All statws now set since user input, creating a new event object
         const newEvent= {
             Title: this.state.Title,
             Message: this.state.Message,
             Date: this.state.Date,
+            File: this.state.PicFile 
         }
 
-        // Trying to send my data via form data (allowing image data to also be passed)
-        const formData = new FormData();
-        formData.append("Title",this.state.Title);
-        formData.append("Message",this.state.Message);
-        formData.append("Date",this.state.Date);
-        formData.append("eventImage",this.state.PicFile);
-
-        axios.post('http://localhost:4000/api/events', formData) // newEvent removed
-        .then((res)=>{
-            console.log(res);
+        // posting new event object to DB
+        axios.post('http://localhost:4000/api/events', newEvent) 
+        .then(()=>{
+            // once event is added and post is succesful, redirect to events page
+            this.props.history.push('/read')
         })
         .catch((err)=>{
             console.log(err);
@@ -84,6 +91,7 @@ export class Create extends Component {
         });
     }
 
+    // clicking the button will fire the on submit event, in turn updating the states
     render() {
         return (
             <div className='App'>
@@ -102,8 +110,8 @@ export class Create extends Component {
                     </div>
                     <br></br>
                     <div className="form-group">
-                        <label htmlfor="file">Upload Picture.</label>
-                        <input type="file" filename="eventImage" className="form-control-file" onChange={this.onChangeImage}></input>
+                        <label>Upload Picture.</label> 
+                        <input type="file" name="image" id="file" accept=".jpeg, .png, .jpg" className="form-control-file" onChange={this.onChangeImage}></input>
                     </div>
                     <br></br>
                     <div className="form-group">

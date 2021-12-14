@@ -9,20 +9,6 @@ const bodyParser = require("body-parser");
 const cors = require('cors');
 // importing mongoose so our node server can communicate with the DB
 const mongoose = require('mongoose');
-const { type } = require('express/lib/response'); // ********* ??
-// This is a form data parser, used to parse images
-const multer = require('multer')
-// execute multer and store image to disk
-const storage = multer.diskStorage({
-  destination: (req, file, callback) =>{
-    callback(null, "./uploads/");
-  },
-  filename: (req, file, callback) =>{
-    callback(null, file.originalname);
-  }
-})
-// passing stored image to upload variable
-const upload = multer({storage: storage})
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
@@ -47,21 +33,20 @@ const mySchema = new Schema({
   Title:String,
   Message:String,
   Date:String,
-  File: String // ******* WIP ******* 
+  File: String 
 })
 
 // Creating model for the DB. This is also the handle when wanting to interact with the DB
 var eventsModel = mongoose.model("event", mySchema);
 
 app.get('/api/events', (req, res) => {
-
   // Searching the DB and returning any found data
   eventsModel.find((err, data)=>{
     res.json(data);
   })
-  // res.json({events:myEvents}) // Populating events with myEvents and executing a json response
 })
 
+// Edit event
 app.get('/api/events/:id', (req, res)=>{
   console.log(req.params.id)
 
@@ -72,9 +57,6 @@ app.get('/api/events/:id', (req, res)=>{
 
 // Updating an entry, call gets made from edit.js
 app.put('/api/events/:id', (req, res)=>{
-  console.log("Update entry: " + req.params.id)
-  console.log(req.body);
-
   // get the object id via paramaters, get body of html, override record - true
   eventsModel.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err, data)=>{
     res.send(data); // We do nothing with this data, it's purely to see out the promise
@@ -83,30 +65,24 @@ app.put('/api/events/:id', (req, res)=>{
 
 // Delete method
 app.delete('/api/events/:id', (req, res)=>{
-  console.log("Delete entry: " + req.params.id)
-
   eventsModel.findByIdAndDelete(req.params.id, (err, data)=>{
     res.send(data); // We do nothing with this data, it's purely to see out the promise
   })
 })
 
-app.post('/api/events', upload.single("eventImage"),(req, res) => {
-  console.log('Event recieved')
-  console.log(req.body.Title)
-  console.log(req.body.Message)
-  console.log(req.body.Date)
-  console.log("Pic - req.file " + req.file.originalname) // WIP .originalname
-
+// Adding event to mongoDB app.post('/api/events', upload.single("eventImage"),(req, res)
+app.post('/api/events',(req, res) => {
   eventsModel.create({
     Title: req.body.Title,
     Message: req.body.Message,
     Date: req.body.Date,
-    File: req.file.originalname 
+    File: req.body.File
   })
   // Confirming upload
   res.send("Event added")
 })
 
+// Server listening on port 4000
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })

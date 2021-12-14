@@ -3,7 +3,7 @@ import { Component } from "react";
 // Import card bootstrap
 import { Card } from "react-bootstrap";
 // Using link which will be our edit button
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // bootstrap buttons 
 import Button from 'react-bootstrap/Button'
 // Importing axios in order to use the delete method 
@@ -12,25 +12,25 @@ import axios from 'axios'
 // Marking class for export
 export class MyItems extends Component {
 
-    constructor(){
+    constructor() {
         super();
         this.DeleteEntry = this.DeleteEntry.bind(this); // making an instance of this delete
     }
 
     // Delete method
-    DeleteEntry(e){
+    DeleteEntry(e) {
         // Stops multiple deletes happening
         e.preventDefault();
 
         axios.delete('http://localhost:4000/api/events/' + this.props.entry._id)
-        .then(()=>{
-            // ReloadAll has been chained from events.js -> read.js and we can now execute it here!
-            this.props.ReloadAll();
-        })
-        .catch((err)=>{
-            console.log(err);
-            this.props.history.push('/error')
-        })
+            .then(() => {
+                // ReloadAll has been chained from events.js -> read.js and we can now execute it here!
+                this.props.ReloadAll();
+            })
+            .catch((err) => {
+                console.log(err);
+                this.props.history.push('/error')
+            })
     }
 
     // render - display
@@ -44,13 +44,11 @@ export class MyItems extends Component {
                     <Card.Header>{this.props.entry.Title}</Card.Header>
                     <Card.Body>
                         <blockquote className="blockquote mb-0">
-                            {/* <img src={this.props.entry.File} width="200" height="200"></img> */}
-                            {/* <img src={"../../backend/uploads/" + this.props.entry.File} width="200" height="200"></img> */}
-                            <img src={'./images/bbook.jpg'} width="200" height="200"></img> 
+                            {/* Rendering the base64 image */}
+                            <img src={"data:image/png;base64, " + this.props.entry.File} width="200" height="200"></img>
                             <footer className="blockquote-footer">
                                 <p>{this.props.entry.Date}</p>
                                 <p>{this.props.entry.Message}</p>
-                                <p>{this.props.entry.File}</p> 
                             </footer>
                         </blockquote>
                     </Card.Body>

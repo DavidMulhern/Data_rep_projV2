@@ -22,14 +22,12 @@ export class Edit extends Component {
         this.state = {
             Title:'',
             Message:'',
-            Date: '',
-            // PicFile: null
+            Date: ''
         }
     }
 
     // Lifecycle hook to pull the id out of the URL
     componentDidMount(){
-
         axios.get('http://localhost:4000/api/events/' + this.props.match.params.id)
         .then(response=>{
             // setting the state with the data returned (populating the fields)
@@ -38,7 +36,6 @@ export class Edit extends Component {
                 Title: response.data.Title,
                 Message: response.data.Message,
                 Date: response.data.Date,
-                // PicFile: response.data.PicFile
             })
         })
         .catch((err)=>{
@@ -47,7 +44,7 @@ export class Edit extends Component {
         })
     }
 
-    // When the value changes in the form, update
+    // When the value changes in the form, update the state(s)
     onChangeTitle(e){
         this.setState({
             Title: e.target.value
@@ -66,23 +63,9 @@ export class Edit extends Component {
         })
     }
 
-    // Handler will set state of PicFile from the event - WIP
-    fileSelectedHandler = event => {
-        console.log(event.target.files[0]);
-        this.setState({
-             PicFile: event.target.files[0]
-        })
-    }
-
-    // WIP
-    fileUploadHnadler = () =>{
-
-    }
-
     onSubmit(e){
         // Stops button from being pressed multiple times
         e.preventDefault();
-        alert("Event: " + this.state.Title + " " + this.state.Message + " " + this.state.Date + " " + this.state.PicFile);
 
         const editEvent= {
             Title: this.state.Title,
@@ -95,21 +78,13 @@ export class Edit extends Component {
         // Edit a record
         axios.put('http://localhost:4000/api/events/' + this.state._id, editEvent)
         .then(response =>{
-            console.log(response.data)
+             // once event is added and post is succesful, redirect to events page
+             this.props.history.push('/read')
         })
         .catch((err)=>{
             console.log(err);
             this.props.history.push('/error')
         })
-
-        // axios.post('http://localhost:4000/api/events', newEvent)
-        // .then((res)=>{
-        //     console.log(res);
-        // })
-        // .catch((err)=>{
-        //     console.log(err);
-        //     this.props.history.push('/error')
-        // });
     }
 
     render() {
