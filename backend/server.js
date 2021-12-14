@@ -23,6 +23,10 @@ app.use(function(req, res, next) {
   "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+// configuration after build, creating path for required directories
+app.use(express.static(path.join(__dirname, '../build')));
+app.use('/static', express.static(path.join(__dirname, 'build//static')));
+
 const connectionString = "mongodb+srv://admin:admin@cluster0.ilny4.mongodb.net/myEventsProj?retryWrites=true&w=majority";
 // Connecting to the DB via mongoose
 mongoose.connect(connectionString, {useNewUrlParser: true});
@@ -80,6 +84,11 @@ app.post('/api/events',(req, res) => {
   })
   // Confirming upload
   res.send("Event added")
+})
+
+// for all other routes/requests, use *
+app.get('*', (req, res)=>{
+  res.sendFile(path.join(__dirname + '/../build/index.html'))
 })
 
 // Server listening on port 4000
