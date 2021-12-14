@@ -18,13 +18,16 @@ export class Create extends Component {
         this.onChangeMessage = this.onChangeMessage.bind(this);
         // Again for the onChangeDate event
         this.onChangeDate = this.onChangeDate.bind(this);
+        // PIC ?
+        this.onChangeImage = this.onChangeImage.bind(this);
 
         this.state = {
             Title:'',
             Message:'',
             Date: '',
-            PicFile: null
+            PicFile: ''
         }
+
     }
 
     // When the value changes in the form, update
@@ -46,16 +49,11 @@ export class Create extends Component {
         })
     }
 
-    // Handler will set state of PicFile from the event
-    fileSelectedHandler = event => {
-        console.log(event.target.files[0]);
+    onChangeImage(e){
         this.setState({
-             PicFile: event.target.files[0]
+            PicFile: e.target.files[0]
         })
-    }
-
-    fileUploadHnadler = () =>{
-
+        console.log(e.target.files[0])
     }
 
     onSubmit(e){
@@ -67,9 +65,16 @@ export class Create extends Component {
             Title: this.state.Title,
             Message: this.state.Message,
             Date: this.state.Date,
-            File: this.state.PicFile
         }
-        axios.post('http://localhost:4000/api/events', newEvent)
+
+        // Trying to send my data via form data (allowing image data to also be passed)
+        const formData = new FormData();
+        formData.append("Title",this.state.Title);
+        formData.append("Message",this.state.Message);
+        formData.append("Date",this.state.Date);
+        formData.append("eventImage",this.state.PicFile);
+
+        axios.post('http://localhost:4000/api/events', formData) // newEvent removed
         .then((res)=>{
             console.log(res);
         })
@@ -82,7 +87,7 @@ export class Create extends Component {
     render() {
         return (
             <div className='App'>
-                <form onSubmit={this.onSubmit}>
+                <form onSubmit={this.onSubmit} encType="multipart/form-data">
                     <div className="form-group">
                         <label>Add Title</label>
                         <input type="text" className='form-control' value={this.state.Title} onChange={this.onChangeTitle}></input>
@@ -95,10 +100,12 @@ export class Create extends Component {
                         <label>Add Date</label>
                         <input type="text" className='form-control' value={this.state.Date} onChange={this.onChangeDate}></input>
                     </div>
+                    <br></br>
                     <div className="form-group">
-                        <label>Upload Picture</label>
-                        <input type="file" className='form-control' onChange={this.fileSelectedHandler}></input>
+                        <label htmlfor="file">Upload Picture.</label>
+                        <input type="file" filename="eventImage" className="form-control-file" onChange={this.onChangeImage}></input>
                     </div>
+                    <br></br>
                     <div className="form-group">
                         <input type='submit' value='Add event' className='btn btn-primary'></input>
                     </div>

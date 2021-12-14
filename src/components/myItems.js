@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 // Importing axios in order to use the delete method 
 import axios from 'axios'
+
 // Marking class for export
 export class MyItems extends Component {
 
@@ -43,10 +44,13 @@ export class MyItems extends Component {
                     <Card.Header>{this.props.entry.Title}</Card.Header>
                     <Card.Body>
                         <blockquote className="blockquote mb-0">
-                            <img src={this.props.entry.File} width="200" height="200"></img>
+                            {/* <img src={this.props.entry.File} width="200" height="200"></img> */}
+                            {/* <img src={"../../backend/uploads/" + this.props.entry.File} width="200" height="200"></img> */}
+                            <img src={'./images/bbook.jpg'} width="200" height="200"></img> 
                             <footer className="blockquote-footer">
                                 <p>{this.props.entry.Date}</p>
                                 <p>{this.props.entry.Message}</p>
+                                <p>{this.props.entry.File}</p> 
                             </footer>
                         </blockquote>
                     </Card.Body>

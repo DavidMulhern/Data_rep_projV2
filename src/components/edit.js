@@ -23,7 +23,7 @@ export class Edit extends Component {
             Title:'',
             Message:'',
             Date: '',
-            PicFile: null
+            // PicFile: null
         }
     }
 
@@ -38,7 +38,7 @@ export class Edit extends Component {
                 Title: response.data.Title,
                 Message: response.data.Message,
                 Date: response.data.Date,
-                PicFile: response.data.PicFile
+                // PicFile: response.data.PicFile
             })
         })
         .catch((err)=>{
@@ -127,10 +127,6 @@ export class Edit extends Component {
                     <div className="form-group">
                         <label>Add Date</label>
                         <input type="text" className='form-control' value={this.state.Date} onChange={this.onChangeDate}></input>
-                    </div>
-                    <div className="form-group">
-                        <label>Upload Picture</label>
-                        <input type="file" className='form-control' onChange={this.fileSelectedHandler}></input>
                     </div>
                     <div className="form-group">
                         <input type='submit' value='Edit event' className='btn btn-dark'></input>

@@ -9,7 +9,20 @@ const bodyParser = require("body-parser");
 const cors = require('cors');
 // importing mongoose so our node server can communicate with the DB
 const mongoose = require('mongoose');
-const { type } = require('express/lib/response');
+const { type } = require('express/lib/response'); // ********* ??
+// This is a form data parser, used to parse images
+const multer = require('multer')
+// execute multer and store image to disk
+const storage = multer.diskStorage({
+  destination: (req, file, callback) =>{
+    callback(null, "./uploads/");
+  },
+  filename: (req, file, callback) =>{
+    callback(null, file.originalname);
+  }
+})
+// passing stored image to upload variable
+const upload = multer({storage: storage})
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
@@ -34,7 +47,7 @@ const mySchema = new Schema({
   Title:String,
   Message:String,
   Date:String,
-  File: Object // ******* WIP ******* 
+  File: String // ******* WIP ******* 
 })
 
 // Creating model for the DB. This is also the handle when wanting to interact with the DB
@@ -77,18 +90,18 @@ app.delete('/api/events/:id', (req, res)=>{
   })
 })
 
-app.post('/api/events', (req, res) => {
+app.post('/api/events', upload.single("eventImage"),(req, res) => {
   console.log('Event recieved')
   console.log(req.body.Title)
   console.log(req.body.Message)
   console.log(req.body.Date)
-  console.log(req.body.File) // WIP
+  console.log("Pic - req.file " + req.file.originalname) // WIP .originalname
 
   eventsModel.create({
     Title: req.body.Title,
     Message: req.body.Message,
     Date: req.body.Date,
-    File: req.body.File
+    File: req.file.originalname 
   })
   // Confirming upload
   res.send("Event added")
