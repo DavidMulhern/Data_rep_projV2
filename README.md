@@ -12,7 +12,6 @@ Project - Dec 2021
 
 Lecturer: Dr. Martin Kenirons
 
-
 # Application description
 
 This is MERN stack application,
