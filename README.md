@@ -21,10 +21,10 @@ Lecturer: Dr. Martin Kenirons
 
 This is MERN stack application,
 
-M - MongoDB - Database 
-E - Express - Server side
-R - React  - Front end
-N - Node - Server side
+1. M - MongoDB - Database 
+2. E - Express - Server side
+3. R - React  - Front end
+4. N - Node - Server side
 
 It offers full capabilities through the above name architectures working in conjuction with eachother
 
