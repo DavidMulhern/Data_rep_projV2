@@ -12,6 +12,11 @@ Project - Dec 2021
 
 Lecturer: Dr. Martin Kenirons
 
+# To use application please run:
+
+1. npm install
+2. npm run build
+
 # Application description
 
 This is MERN stack application,
@@ -32,15 +37,3 @@ The app is desinged as a sort of diary if you will, allowing the user to create 
 3. Implemented an upload image option. This is handled by converting the image file to a base64 string, meaning it can be sent via http requests and rendered again client/server sides. I care not to admit how long this took me, but it works, hazza
 4. Made another component to be used in catch() blocks, notifying the user that his/hers requests can not be fulfilled. 
 
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
